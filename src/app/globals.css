@@ -32,22 +32,21 @@ a {
   display: grid;
   align-content: start;
   gap: 24px;
-  background: #050505;
-  color: #f7f7f7;
-  font-family: Consolas, "Courier New", monospace;
-  padding: 22px clamp(12px, 4vw, 32px) 56px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding: 28px clamp(16px, 4vw, 48px) 56px;
 }
 
 .os-page h1 {
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(1.35rem, 5vw, 1.75rem);
-  line-height: 1.1;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1;
 }
 
 .os-back {
-  color: #ffffff;
+  color: var(--muted);
   font-weight: 800;
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .os-card {
@@ -55,11 +54,11 @@ a {
   width: min(100%, 720px);
   display: grid;
   gap: 18px;
-  background: #1b1b1b;
-  border: 1px solid #242424;
-  border-radius: 20px;
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
-  color: #ffffff;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  color: var(--ink);
   padding: clamp(18px, 4vw, 28px);
 }
 
@@ -68,7 +67,7 @@ a {
 }
 
 .os-label {
-  color: #d8d8d8;
+  color: var(--muted);
   font-size: 0.82rem;
   font-weight: 800;
 }
@@ -78,14 +77,13 @@ a {
 }
 
 .operations-detail h2 {
-  color: #ffffff;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color: var(--ink);
   font-size: 1.2rem;
 }
 
 .operations-detail > div:first-child span {
   display: block;
-  color: #c9c9c9;
+  color: var(--muted);
   font-size: 0.88rem;
   line-height: 1.45;
   margin-top: 5px;
@@ -120,23 +118,20 @@ a {
 }
 
 .copy-icon {
-  position: absolute;
-  top: 14px;
-  right: 18px;
-  color: #e9e9e9;
-  font-size: 0.95rem;
-  letter-spacing: -0.2em;
+  display: none;
 }
 
 .ceo-card {
-  min-height: 380px;
+  min-height: auto;
   align-content: start;
 }
 
 .ascii-box {
   width: min(100%, 270px);
-  border: 1px solid #f2f2f2;
-  padding: 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fbfcf8;
+  padding: 14px;
 }
 
 .ascii-box strong,
@@ -144,8 +139,9 @@ a {
 .os-card > p,
 .daily-pm-sketch strong,
 .construction-flow strong {
-  font-size: 0.82rem;
-  letter-spacing: 0;
+  font-size: 0.83rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .ascii-box dl {
@@ -164,7 +160,7 @@ a {
 
 .ascii-box dt,
 .ascii-box dd {
-  color: #ffffff;
+  color: var(--ink);
   font-size: 0.78rem;
   font-weight: 800;
   text-transform: none;
@@ -183,7 +179,7 @@ a {
 
 .project-health a {
   grid-template-columns: 14px minmax(0, 1fr) 52px;
-  color: #ffffff;
+  color: var(--ink);
   font-size: 0.78rem;
   font-weight: 800;
   text-decoration: none;
@@ -215,7 +211,7 @@ a {
 }
 
 .os-nav a {
-  color: #ffffff;
+  color: var(--ink);
   font-size: 0.82rem;
   font-weight: 800;
   text-decoration: none;
@@ -239,42 +235,49 @@ a {
   display: grid;
   align-content: center;
   gap: 10px;
-  border: 4px solid #f8f8f8;
-  color: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: linear-gradient(135deg, #f8faf4 0%, #e8eee3 100%);
+  color: var(--ink);
   padding: clamp(18px, 7vw, 90px);
   text-decoration: none;
 }
 
 .plan-preview-box span,
 .plan-preview-box strong {
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(1.15rem, 4vw, 1.65rem);
-  font-weight: 500;
+  font-weight: 750;
 }
 
 .plan-preview-box em {
-  color: #d8d8d8;
+  color: var(--muted);
   font-style: normal;
 }
 
 .plan-tab-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px 30px;
-  border: 4px solid #f8f8f8;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fbfcf8;
   padding: 12px;
 }
 
 .plan-tab-row a,
 .plan-tab-row span {
-  color: #ffffff;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(1rem, 3vw, 1.35rem);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 850;
+  padding: 10px 12px;
   text-decoration: none;
 }
 
 .plan-tab-row span {
-  color: #bcbcbc;
+  color: var(--muted);
+  background: var(--surface);
 }
 
 .os-scope-card,
@@ -293,7 +296,7 @@ a {
 .folder-structure a,
 .construction-flow span,
 .os-assignment span {
-  color: #ffffff;
+  color: var(--ink);
   font-size: 0.86rem;
   font-weight: 800;
   line-height: 1.45;
@@ -303,7 +306,7 @@ a {
   width: 150px;
   margin: 14px 0;
   border: 0;
-  border-top: 1px dashed #ffffff;
+  border-top: 1px dashed var(--line);
 }
 
 .folder-structure a {
@@ -311,7 +314,7 @@ a {
 }
 
 .folder-structure a span {
-  color: #f0c15a;
+  color: var(--amber);
 }
 
 .construction-flow {
@@ -328,14 +331,14 @@ a {
   max-width: 320px;
   overflow: hidden;
   border-radius: 99px;
-  background: #323232;
+  background: var(--surface-strong);
 }
 
 .mini-progress i {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: #ffffff;
+  background: var(--green);
 }
 
 .os-assignment {
@@ -343,8 +346,8 @@ a {
 }
 
 .os-assignment .file-list a {
-  border-color: #3a3a3a;
-  background: #111111;
+  border-color: var(--line);
+  background: #fbfcf8;
 }
 
 .page-shell {
