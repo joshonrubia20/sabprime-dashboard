@@ -40,21 +40,16 @@ export function DashboardProjects({ projects }: DashboardProjectsProps) {
   return (
     <>
       <div className="filter-bar" aria-label="Project filters">
-        <div className="filter-control sort-control">
+        <label className="filter-control">
           <span>Sort projects</span>
-          <div className="sort-buttons" role="group" aria-label="Sort projects">
+          <select value={sortMode} onChange={(event) => setSortMode(event.target.value as SortMode)}>
             {sortOptions.map((option) => (
-              <button
-                className={sortMode === option.value ? "active" : ""}
-                key={option.value}
-                onClick={() => setSortMode(option.value)}
-                type="button"
-              >
+              <option key={option.value} value={option.value}>
                 {option.label}
-              </button>
+              </option>
             ))}
-          </div>
-        </div>
+          </select>
+        </label>
       </div>
 
       <section className="project-grid" aria-label="Projects">
