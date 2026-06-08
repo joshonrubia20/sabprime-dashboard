@@ -72,6 +72,13 @@ export type TaskAssignmentPackage = {
   links: RequiredProjectFile[];
 };
 
+export type ConstructionFlowStep = {
+  projectId: string;
+  label: string;
+  percent: number;
+  status: "Done" | "Active" | "Pending";
+};
+
 const driveHome = "https://drive.google.com/";
 const dimaanoFolder = "https://drive.google.com/drive/folders/1cixh02KuVl9s314RG4_SID-DwfWUhsN4";
 const magnoliaScopeDoc = "https://docs.google.com/document/d/1IRactfUow3WxKcxjlXVYqNDr8ShH7SKErwI--of2O0Q";
@@ -171,6 +178,21 @@ export const requiredProjectFiles: RequiredProjectFile[] = [
   { projectId: "bonoan-roofing", label: "Supplier Quotes", folder: "Procurement", url: driveHome },
 ];
 
+export const constructionFlowSteps: ConstructionFlowStep[] = [
+  { projectId: "dimaano-residences", label: "Pre-Construction", percent: 100, status: "Done" },
+  { projectId: "dimaano-residences", label: "Mobilization", percent: 100, status: "Done" },
+  { projectId: "dimaano-residences", label: "Foundation", percent: 100, status: "Done" },
+  { projectId: "dimaano-residences", label: "Structural", percent: 50, status: "Active" },
+  { projectId: "dimaano-residences", label: "Roofing", percent: 0, status: "Pending" },
+  { projectId: "dimaano-residences", label: "Finishing", percent: 0, status: "Pending" },
+  { projectId: "magnolia-residences", label: "Pre-Construction", percent: 8, status: "Active" },
+  { projectId: "magnolia-residences", label: "Mobilization", percent: 0, status: "Pending" },
+  { projectId: "magnolia-residences", label: "Foundation", percent: 0, status: "Pending" },
+  { projectId: "magnolia-residences", label: "Structural", percent: 0, status: "Pending" },
+  { projectId: "magnolia-residences", label: "Roofing", percent: 0, status: "Pending" },
+  { projectId: "magnolia-residences", label: "Finishing", percent: 0, status: "Pending" },
+];
+
 export const dailyUpdates: DailyUpdate[] = [
   {
     date: "2026-06-09",
@@ -178,12 +200,12 @@ export const dailyUpdates: DailyUpdate[] = [
     projectName: "Dimaano Residences",
     updatedBy: "Site Engineer",
     category: "Progress",
-    taskOrIssue: "General requirements and site setup progress validated.",
-    progressPercent: 18,
-    plannedPercent: 22,
-    actualPercent: 18,
-    manpowerCount: 12,
-    blocker: "Client approval pending for one item",
+    taskOrIssue: "Roof framing progress updated from site.",
+    progressPercent: 45,
+    plannedPercent: 48,
+    actualPercent: 45,
+    manpowerCount: 15,
+    blocker: "Client approval pending; material shortage",
     assignedTo: "Project Manager",
     status: "Open",
     priority: "High",
@@ -193,7 +215,7 @@ export const dailyUpdates: DailyUpdate[] = [
     projectFolderLink: dimaanoFolder,
     requiredFiles: ["Contract", "Scope of Works", "Architectural Plans", "Photos"],
     photosLink: dimaanoFolder,
-    notes: "Behind planned progress; review client pending items and procurement lead time.",
+    notes: "8:00 AM manpower 15. 12:00 PM slab poured. 5:00 PM 45% complete.",
   },
   {
     date: "2026-06-09",
@@ -262,6 +284,20 @@ export function getProjectRequiredFiles(projectId: string) {
   return requiredProjectFiles.filter((file) => file.projectId === projectId);
 }
 
+export function getProjectFolders(projectId: string) {
+  const folders = ["Plans", "Scope", "Reports", "Photos", "Billings", "Procurement", "Contracts"];
+  const projectFiles = getProjectRequiredFiles(projectId);
+
+  return folders.map((folder) => ({
+    folder,
+    url: projectFiles.find((file) => file.folder === folder || file.label.includes(folder))?.url ?? driveHome,
+  }));
+}
+
+export function getConstructionFlow(projectId: string) {
+  return constructionFlowSteps.filter((step) => step.projectId === projectId);
+}
+
 export function getProjectDailyUpdates(projectId: string) {
   return dailyUpdates
     .filter((update) => update.projectId === projectId)
@@ -271,7 +307,10 @@ export function getProjectDailyUpdates(projectId: string) {
 export function getDefaultDashboardGroups() {
   const openItems = dailyUpdates.filter((update) => update.status !== "Done");
   return {
-    activeProjects: Array.from(new Set(dailyUpdates.map((update) => update.projectId))).length,
+    activeProjects: 12,
+    delayedProjects: 2,
+    pendingBillings: 5,
+    collectionDue: "1.2M",
     openCriticalIssues: openItems.filter((update) => update.priority === "Critical" || update.priority === "High").length,
     behindSchedule: openItems.filter((update) => update.actualPercent < update.plannedPercent).length,
     clientPendingItems: openItems.filter((update) => update.category === "Client Requirements").length,

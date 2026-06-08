@@ -1,90 +1,61 @@
 import Link from "next/link";
 import { getDefaultDashboardGroups } from "@/lib/daily-pm";
-import { projects } from "@/lib/project-structure";
-import { DashboardProjects } from "./DashboardProjects";
+
+const projectHealth = [
+  { name: "Dimaano", percent: 45, status: "good" },
+  { name: "Magnolia", percent: 72, status: "good" },
+  { name: "Gulapa", percent: 25, status: "watch" },
+  { name: "Sta Clara", percent: 10, status: "bad" },
+];
 
 export default function DashboardPage() {
   const dashboardGroups = getDefaultDashboardGroups();
 
   return (
-    <main className="app-layout">
-      <aside className="sidebar">
-        <div className="brand">
-          <strong>Sabprime</strong>
-          <span>Operations Dashboard</span>
-        </div>
-        <nav className="nav-list" aria-label="Main">
-          <Link className="nav-link" href="/kanban">
-            Kanban
-          </Link>
-          <Link className="nav-link active" href="/dashboard">
-            Projects
-          </Link>
-          <Link className="nav-link" href="/dashboard">
-            Calendar
-          </Link>
-          <Link className="nav-link" href="/dashboard">
-            Finances
-          </Link>
-        </nav>
-      </aside>
+    <main className="os-page">
+      <h1>CEO Dashboard</h1>
 
-      <section className="content page-shell">
-        <div className="hero">
-          <div>
-            <p className="eyebrow">Phase 1 Prototype</p>
-            <h1>Project Dashboard</h1>
-            <p>Default view: Open Items across active projects, critical issues, delayed work, client pending items, and latest daily updates.</p>
-          </div>
-          <Link className="button" href="/projects/new">
-            New Project
-          </Link>
-        </div>
-
-        <section className="default-dashboard" aria-label="Default dashboard view">
-          <article>
-            <p className="eyebrow">Active Projects</p>
-            <strong>{dashboardGroups.activeProjects}</strong>
-          </article>
-          <article>
-            <p className="eyebrow">Open Critical Issues</p>
-            <strong>{dashboardGroups.openCriticalIssues}</strong>
-          </article>
-          <article>
-            <p className="eyebrow">Behind Schedule</p>
-            <strong>{dashboardGroups.behindSchedule}</strong>
-          </article>
-          <article>
-            <p className="eyebrow">Client Pending</p>
-            <strong>{dashboardGroups.clientPendingItems}</strong>
-          </article>
-        </section>
-
-        <section className="latest-updates-strip" aria-label="Latest daily updates">
-          <div className="directory-card-header">
+      <section className="os-card ceo-card" aria-label="SAB Prime Project OS">
+        <div className="copy-icon" aria-hidden="true">[]</div>
+        <div className="ascii-box">
+          <strong>SAB PRIME PROJECT OS</strong>
+          <dl>
             <div>
-              <p className="eyebrow">Latest Daily Updates</p>
-              <h2>Filter: Open Items</h2>
+              <dt>Active Projects</dt>
+              <dd>{dashboardGroups.activeProjects}</dd>
             </div>
-            <div className="quick-filters" aria-label="Filters">
-              <span>Today</span>
-              <span>Last 7 Days</span>
-              <strong>Open Items</strong>
-              <span>All History</span>
+            <div>
+              <dt>Delayed Projects</dt>
+              <dd>{dashboardGroups.delayedProjects}</dd>
             </div>
-          </div>
-          <div className="latest-update-list">
-            {dashboardGroups.latestUpdates.map((update) => (
-              <Link href={`/projects/${update.projectId}`} key={`${update.projectId}-${update.date}-${update.taskOrIssue}`}>
-                <span>{update.date} | {update.category}</span>
-                <strong>{update.projectName}</strong>
-                <small>{update.taskOrIssue}</small>
-              </Link>
-            ))}
-          </div>
-        </section>
+            <div>
+              <dt>Pending Billings</dt>
+              <dd>{dashboardGroups.pendingBillings}</dd>
+            </div>
+            <div>
+              <dt>Collection Due</dt>
+              <dd>{dashboardGroups.collectionDue}</dd>
+            </div>
+          </dl>
+        </div>
 
-        <DashboardProjects projects={projects} />
+        <div className="project-health">
+          <p>PROJECT HEALTH</p>
+          {projectHealth.map((project) => (
+            <Link href={project.name === "Dimaano" ? "/projects/dimaano-residences" : "/dashboard"} key={project.name}>
+              <span className={`health-dot ${project.status}`} />
+              <strong>{project.name}</strong>
+              <em>{project.percent}%</em>
+            </Link>
+          ))}
+        </div>
+
+        <nav className="os-nav" aria-label="CEO shortcuts">
+          <Link href="/dashboard">[Projects]</Link>
+          <Link href="/company">[Finance]</Link>
+          <Link href="/projects/dimaano-residences/daily/procurement">[Procurement]</Link>
+          <Link href="/company/manual">[Reports]</Link>
+        </nav>
       </section>
     </main>
   );
