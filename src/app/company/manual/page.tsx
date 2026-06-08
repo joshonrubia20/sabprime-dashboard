@@ -47,6 +47,16 @@ const projectTabs = [
     purpose: "Progress dropdown list for Site Status.",
     required: "project_id, scope_id, scope_name, completion_percent, source",
   },
+  {
+    tab: "Daily Updates",
+    purpose: "Daily PM feed for site engineer, admin, project manager, and operations head updates.",
+    required: "date, project_id, updated_by, category, task_or_issue, progress_percent, planned_percent, actual_percent, manpower_count, blocker, assigned_to, status, priority, target_date",
+  },
+  {
+    tab: "Project Files",
+    purpose: "One-tap links for contract, scope, plans, reports, billings, photos, and assignment packages.",
+    required: "project_id, file_type, folder_name, file_link, revision_number, revision_date",
+  },
 ];
 
 export default function CompanyManualPage() {
@@ -139,7 +149,36 @@ export default function CompanyManualPage() {
           <li>Put shared people and company records in the company sheet, not inside the project dashboard.</li>
           <li>Put project progress, scope percent, labor count today, blockers, and Drive folder links in the project sheet.</li>
           <li>Use the Project Sources tab to store external links for procurement forms, payroll sheets, Telegram channels, and billing folders.</li>
+          <li>Use Daily Updates for phone-first project reporting. Default dashboard filters should start at Open Items.</li>
+          <li>Every assigned task should include project folder, drawings, scope, photos, reports, billings, and supplier quotes when applicable.</li>
         </ol>
+      </section>
+
+      <section className="manual-section">
+        <h2>Daily PM Required Columns</h2>
+        <p>
+          Add these as columns in the Project Sheet when the prototype is connected to live Google Sheets:
+          date, project_id, project_name, updated_by, category, task_or_issue, progress_percent, planned_percent,
+          actual_percent, manpower_count, blocker, assigned_to, status, priority, target_date, plans_link,
+          scope_link, project_folder_link, required_files, photos_link, notes.
+        </p>
+      </section>
+
+      <section className="manual-section">
+        <h2>Long-Term System Modules</h2>
+        <div className="manual-flow">
+          <span>Dashboard</span>
+          <span>Projects</span>
+          <span>Plans Viewer</span>
+          <span>Daily PM</span>
+          <span>Construction Flow</span>
+          <span>Billing</span>
+          <span>Procurement</span>
+          <span>Reports</span>
+          <span>Inventory</span>
+          <span>Client Portal</span>
+        </div>
+        <p>Primary device is mobile phone, so every project screen should be readable and usable without opening a laptop.</p>
       </section>
     </main>
   );

@@ -315,6 +315,238 @@ h2 {
   text-decoration: none;
 }
 
+.mobile-project-summary,
+.default-dashboard,
+.phone-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.mobile-project-summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.mobile-project-summary article,
+.default-dashboard article,
+.plans-viewer,
+.scope-viewer,
+.required-files-panel,
+.daily-feed,
+.assignment-package,
+.latest-updates-strip {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.mobile-project-summary article,
+.default-dashboard article {
+  display: grid;
+  gap: 5px;
+  padding: 16px;
+}
+
+.mobile-project-summary strong,
+.default-dashboard strong {
+  font-size: 1.35rem;
+}
+
+.mobile-project-summary span {
+  color: var(--muted);
+}
+
+.status-card.green {
+  border-color: rgba(47, 125, 87, 0.35);
+}
+
+.status-card.yellow {
+  border-color: rgba(184, 122, 27, 0.42);
+}
+
+.status-card.red {
+  border-color: rgba(185, 74, 72, 0.42);
+}
+
+.status-card.green strong {
+  color: var(--green);
+}
+
+.status-card.yellow strong {
+  color: var(--amber);
+}
+
+.status-card.red strong {
+  color: var(--red);
+}
+
+.plans-viewer,
+.scope-viewer,
+.required-files-panel,
+.daily-feed,
+.assignment-package,
+.latest-updates-strip {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 18px;
+}
+
+.plan-preview {
+  min-height: 220px;
+  display: grid;
+  align-content: end;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: linear-gradient(135deg, #f8faf4 0%, #e8eee3 100%);
+  padding: 18px;
+}
+
+.plan-preview strong {
+  font-size: clamp(1.35rem, 4vw, 2.2rem);
+}
+
+.plan-preview span {
+  color: var(--muted);
+  font-weight: 750;
+}
+
+.plan-buttons {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.plan-buttons a,
+.plan-buttons span,
+.feed-links a,
+.quick-filters span,
+.quick-filters strong {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 850;
+}
+
+.plan-buttons span {
+  color: var(--muted);
+  background: #fbfcf8;
+}
+
+.phone-grid {
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+}
+
+.scope-viewer > div {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 12px;
+}
+
+.scope-viewer ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.feed-card {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 14px;
+}
+
+.feed-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.feed-card-top,
+.feed-links,
+.quick-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.feed-card-top span,
+.feed-card-top strong {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.feed-card dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.priority {
+  border-radius: 999px;
+  background: var(--surface-strong);
+  padding: 4px 8px;
+  font-weight: 850;
+}
+
+.priority.high,
+.priority.critical {
+  color: var(--red);
+}
+
+.priority.normal {
+  color: var(--amber);
+}
+
+.assignment-package {
+  grid-template-columns: 280px minmax(0, 1fr);
+  align-items: start;
+}
+
+.default-dashboard {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.quick-filters strong {
+  background: var(--ink);
+  color: #fff;
+}
+
+.quick-filters span {
+  color: var(--muted);
+}
+
+.latest-update-list {
+  display: grid;
+  gap: 8px;
+}
+
+.latest-update-list a {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.latest-update-list span,
+.latest-update-list small {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
 
 .progress-track {
   height: 10px;
@@ -936,8 +1168,20 @@ dd {
   .metric-grid,
   .project-overview,
   .company-grid,
-  .board {
+  .board,
+  .mobile-project-summary,
+  .default-dashboard,
+  .phone-grid,
+  .assignment-package {
     grid-template-columns: 1fr;
+  }
+
+  .plan-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .feed-card dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .site-panel {
@@ -989,5 +1233,25 @@ dd {
 
   .assignment-panel {
     position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .page-shell {
+    padding: 18px 12px 42px;
+  }
+
+  .plan-buttons,
+  .feed-card dl {
+    grid-template-columns: 1fr;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .directory-card-header {
+    align-items: stretch;
+    flex-direction: column;
   }
 }
