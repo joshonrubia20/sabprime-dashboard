@@ -8,7 +8,8 @@ import {
   getScopeSummary,
   type PlanCategory,
 } from "@/lib/daily-pm";
-import { getProject } from "@/lib/project-structure";
+import { dailySections, getProject } from "@/lib/project-structure";
+import { ProjectSitePanel } from "./ProjectSitePanel";
 
 type ProjectPageProps = {
   params: Promise<{ projectId: string }>;
@@ -83,6 +84,31 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <a href="#folders">[Photos]</a>
           <a href="#tasks">[Tasks]</a>
         </nav>
+      </section>
+
+      <section className="os-card os-wide-card operations-detail" aria-label="Project operations tracker">
+        <div>
+          <p className="os-label">OLD PROJECT DASHBOARD + NEW OS</p>
+          <h2>Operations Tracker</h2>
+          <span>Site status, scope dropdown, labor count, blockers, and Drive folder access from the previous version.</span>
+        </div>
+        <div className="integrated-project-overview">
+          <ProjectSitePanel project={project} />
+          <div className="summary-metrics">
+            <article className="metric">
+              <p className="eyebrow">Procurement</p>
+              <h2>2 open requests</h2>
+            </article>
+            <article className="metric">
+              <p className="eyebrow">Payroll</p>
+              <h2>1 approval pending</h2>
+            </article>
+            <article className="metric">
+              <p className="eyebrow">Billing</p>
+              <h2>PHP 1.72M next gate</h2>
+            </article>
+          </div>
+        </div>
       </section>
 
       <section id="plans" className="os-card plans-sketch" aria-label="Plans viewer">
@@ -170,6 +196,25 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </a>
           ))}
         </div>
+      </section>
+
+      <section className="os-card os-wide-card operations-detail" aria-label="Daily sections">
+        <div>
+          <p className="os-label">DAILY MODULES</p>
+          <h2>Open Old Detailed Pages</h2>
+          <span>These keep the previous procurement, payroll, site status, billing, and project management screens available.</span>
+        </div>
+        <section className="section-grid">
+          {dailySections.map((section) => (
+            <Link className="section-card" href={`/projects/${project.id}/daily/${section.route}`} key={section.id}>
+              <span className="section-dot" style={{ background: section.accent }} />
+              <div>
+                <h2>{section.title}</h2>
+                <p className="muted">{section.summary}</p>
+              </div>
+            </Link>
+          ))}
+        </section>
       </section>
     </main>
   );

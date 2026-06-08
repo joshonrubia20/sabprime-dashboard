@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getDefaultDashboardGroups } from "@/lib/daily-pm";
+import { projects } from "@/lib/project-structure";
+import { DashboardProjects } from "./DashboardProjects";
 
 const projectHealth = [
   { name: "Dimaano", percent: 45, status: "good" },
@@ -56,6 +58,15 @@ export default function DashboardPage() {
           <Link href="/projects/dimaano-residences/daily/procurement">[Procurement]</Link>
           <Link href="/company/manual">[Reports]</Link>
         </nav>
+      </section>
+
+      <section className="os-card os-wide-card operations-detail" aria-label="Projects operations detail">
+        <div>
+          <p className="os-label">PROJECTS</p>
+          <h2>Operations Detail</h2>
+          <span>Old dashboard project cards kept here for sorting, quick opening, and project comparison.</span>
+        </div>
+        <DashboardProjects projects={projects} />
       </section>
     </main>
   );
