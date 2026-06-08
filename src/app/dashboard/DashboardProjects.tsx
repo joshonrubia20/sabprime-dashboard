@@ -26,7 +26,7 @@ function formatDate(date: string) {
 }
 
 export function DashboardProjects({ projects }: DashboardProjectsProps) {
-  const [sortMode, setSortMode] = useState<SortMode>("date-desc");
+  const [sortMode, setSortMode] = useState<SortMode>("date-asc");
 
   const sortedProjects = useMemo(() => {
     return [...projects].sort((a, b) => {
@@ -40,19 +40,21 @@ export function DashboardProjects({ projects }: DashboardProjectsProps) {
   return (
     <>
       <div className="filter-bar" aria-label="Project filters">
-        <label className="filter-control">
+        <div className="filter-control sort-control">
           <span>Sort projects</span>
-          <select
-            value={sortMode}
-            onChange={(event) => setSortMode(event.target.value as SortMode)}
-          >
+          <div className="sort-buttons" role="group" aria-label="Sort projects">
             {sortOptions.map((option) => (
-              <option key={option.value} value={option.value}>
+              <button
+                className={sortMode === option.value ? "active" : ""}
+                key={option.value}
+                onClick={() => setSortMode(option.value)}
+                type="button"
+              >
                 {option.label}
-              </option>
+              </button>
             ))}
-          </select>
-        </label>
+          </div>
+        </div>
       </div>
 
       <section className="project-grid" aria-label="Projects">

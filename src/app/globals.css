@@ -485,6 +485,33 @@ h2 {
   min-width: 210px;
 }
 
+.sort-control {
+  width: 100%;
+}
+
+.sort-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sort-buttons button {
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 850;
+  padding: 0 12px;
+}
+
+.sort-buttons button.active {
+  background: var(--ink);
+  color: #fff;
+}
+
 .filter-control span {
   color: var(--muted);
   font-size: 0.73rem;
