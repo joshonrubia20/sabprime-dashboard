@@ -3,12 +3,11 @@ import { getDefaultDashboardGroups } from "@/lib/daily-pm";
 import { projects } from "@/lib/project-structure";
 import { DashboardProjects } from "./DashboardProjects";
 
-const projectHealth = [
-  { name: "Dimaano", percent: 45, status: "good" },
-  { name: "Magnolia", percent: 72, status: "good" },
-  { name: "Gulapa", percent: 25, status: "watch" },
-  { name: "Sta Clara", percent: 10, status: "bad" },
-];
+function getHealthStatus(completion: number) {
+  if (completion < 15) return "bad";
+  if (completion < 35) return "watch";
+  return "good";
+}
 
 export default function DashboardPage() {
   const dashboardGroups = getDefaultDashboardGroups();
@@ -43,11 +42,11 @@ export default function DashboardPage() {
 
         <div className="project-health">
           <p>PROJECT HEALTH</p>
-          {projectHealth.map((project) => (
-            <Link href={project.name === "Dimaano" ? "/projects/dimaano-residences" : "/dashboard"} key={project.name}>
-              <span className={`health-dot ${project.status}`} />
-              <strong>{project.name}</strong>
-              <em>{project.percent}%</em>
+          {projects.map((project) => (
+            <Link href={`/projects/${project.id}`} key={project.id}>
+              <span className={`health-dot ${getHealthStatus(project.completion)}`} />
+              <strong>{project.clientName}</strong>
+              <em>{project.completion}%</em>
             </Link>
           ))}
         </div>

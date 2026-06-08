@@ -72,7 +72,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <section className="os-card project-detail-card" aria-label="Project detail">
         <div className="copy-icon" aria-hidden="true">[]</div>
         <p>PROJECT: {project.clientName.toUpperCase()}</p>
-        <p>Progress: {todayUpdate?.progressPercent ?? project.completion}%</p>
+        <p>Progress: {project.completion}%</p>
         <p>Current Phase:<br />{project.phase === "Construction setup" ? "Roof Framing" : project.phase}</p>
         <p>Next Milestone:<br />Roofing Installation</p>
         <p>Open Issues:<br />{project.openBlockers || 2}</p>
@@ -153,7 +153,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <strong>12:00 PM</strong>
         <span>Slab poured</span>
         <strong>5:00 PM</strong>
-        <span>{todayUpdate?.progressPercent ?? project.completion}% complete</span>
+        <span>{project.completion}% complete</span>
         <hr />
         <p>OPEN ISSUES</p>
         <span>Client approval pending</span>
