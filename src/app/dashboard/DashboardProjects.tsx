@@ -25,24 +25,37 @@ function formatDate(date: string) {
   }).format(new Date(`${date}T00:00:00`));
 }
 
+function getDateValue(date: string) {
+  return new Date(`${date}T00:00:00`).getTime();
+}
+
 export function DashboardProjects({ projects }: DashboardProjectsProps) {
   const [sortMode, setSortMode] = useState<SortMode>("date-asc");
 
   const sortedProjects = useMemo(() => {
     return [...projects].sort((a, b) => {
-      if (sortMode === "date-asc") return a.startDate.localeCompare(b.startDate);
-      if (sortMode === "date-desc") return b.startDate.localeCompare(a.startDate);
-      if (sortMode === "completion-asc") return a.completion - b.completion;
-      return b.completion - a.completion;
+      const byName = a.name.localeCompare(b.name);
+      if (sortMode === "date-asc") return getDateValue(a.startDate) - getDateValue(b.startDate) || byName;
+      if (sortMode === "date-desc") return getDateValue(b.startDate) - getDateValue(a.startDate) || byName;
+      if (sortMode === "completion-asc") return a.completion - b.completion || byName;
+      return b.completion - a.completion || byName;
     });
   }, [projects, sortMode]);
+
+  function handleSortChange(value: string) {
+    setSortMode(value as SortMode);
+  }
 
   return (
     <>
       <div className="filter-bar" aria-label="Project filters">
         <label className="filter-control">
           <span>Sort projects</span>
-          <select value={sortMode} onChange={(event) => setSortMode(event.target.value as SortMode)}>
+          <select
+            value={sortMode}
+            onChange={(event) => handleSortChange(event.currentTarget.value)}
+            onInput={(event) => handleSortChange(event.currentTarget.value)}
+          >
             {sortOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
