@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getDefaultDashboardGroups } from "@/lib/daily-pm";
-import { projects, type Project } from "@/lib/project-structure";
+import { projects } from "@/lib/project-structure";
 import { DashboardProjects, type SortMode } from "./DashboardProjects";
 
 type DashboardPageProps = {
@@ -19,24 +19,9 @@ function getHealthStatus(completion: number) {
   return "good";
 }
 
-function getDateValue(date: string) {
-  return new Date(`${date}T00:00:00`).getTime();
-}
-
-function sortProjects(projectList: Project[], sortMode: SortMode) {
-  return [...projectList].sort((a, b) => {
-    const byName = a.name.localeCompare(b.name);
-    if (sortMode === "date-asc") return getDateValue(a.startDate) - getDateValue(b.startDate) || byName;
-    if (sortMode === "date-desc") return getDateValue(b.startDate) - getDateValue(a.startDate) || byName;
-    if (sortMode === "completion-asc") return a.completion - b.completion || byName;
-    return b.completion - a.completion || byName;
-  });
-}
-
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const { sort } = (await searchParams) ?? {};
   const sortMode = getSortMode(sort);
-  const sortedProjects = sortProjects(projects, sortMode);
   const dashboardGroups = getDefaultDashboardGroups();
 
   return (
@@ -92,7 +77,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           <h2>Operations Detail</h2>
           <span>Old dashboard project cards kept here for sorting, quick opening, and project comparison.</span>
         </div>
-        <DashboardProjects initialSortMode={sortMode} projects={sortedProjects} />
+        <DashboardProjects initialSortMode={sortMode} projects={projects} />
       </section>
     </main>
   );

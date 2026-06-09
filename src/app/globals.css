@@ -471,10 +471,6 @@ h2 {
   color: var(--ink);
 }
 
-.sort-apply {
-  align-self: end;
-}
-
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
