@@ -1,5 +1,10 @@
 import type { Project } from "./project-structure";
 import crypto from "node:crypto";
+import {
+  getNumberPrefix,
+  projectFolderStructure,
+  removeNumberPrefix,
+} from "@/data/driveStructure";
 
 const googleDriveFolderMime = "application/vnd.google-apps.folder";
 const driveApiKey = process.env.GOOGLE_DRIVE_API_KEY;
@@ -37,17 +42,18 @@ export type ProjectDriveSource = {
 };
 
 export const projectFolderMap = {
-  projectControl: "01_PROJECT CONTROL",
-  plans: "02_PLANS",
-  scopeContract: "03_SCOPE & CONTRACT",
-  dailyReports: "04_DAILY REPORTS",
-  sitePhotos: "05_SITE PHOTOS",
-  billingCollection: "06_BILLING & COLLECTION",
-  procurement: "07_PROCUREMENT",
-  permits: "08_PERMITS",
-  variationOrders: "09_VARIATION ORDERS",
-  turnover: "10_TURNOVER",
-  archive: "99_ARCHIVE",
+  dashboardLinks: "00-DASHBOARD LINKS",
+  projectControl: "01-PROJECT CONTROL",
+  plans: "02-PLANS",
+  scopeContract: "03-SCOPE & CONTRACT",
+  dailyReports: "04-DAILY REPORTS",
+  sitePhotos: "05-SITE PHOTOS",
+  billingCollection: "06-BILLING & COLLECTION",
+  procurement: "07-PROCUREMENT",
+  permits: "08-PERMITS",
+  variationOrders: "09-VARIATION ORDERS",
+  turnover: "10-TURNOVER",
+  archive: "99-ARCHIVE",
 } as const;
 
 function extractDriveFolderId(url: string) {
@@ -64,23 +70,14 @@ function extractDriveFolderId(url: string) {
 }
 
 function parseNumberedFolder(name: string) {
-  const match = name.match(/^(\d+)[_-](.+)$/);
+  const match = name.match(/^(\d+)[-_\s]+(.+)$/);
   if (!match) return null;
 
   return {
-    number: Number(match[1]),
+    number: getNumberPrefix(name),
     code: match[1],
-    displayName: toDisplayName(match[2]),
+    displayName: removeNumberPrefix(name),
   };
-}
-
-function toDisplayName(value: string) {
-  return value
-    .replace(/[_-]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .toLowerCase()
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 function toDriveFolder(file: DriveFile): DriveFolder | null {
@@ -197,18 +194,22 @@ function sortFilesNewestFirst(files: DriveFile[]) {
 }
 
 function mapMainFolders(folders: DriveFolder[]) {
+  const byCode = new Map(folders.map((folder) => [folder.code, folder]));
+  const standardCode = (module: string) => projectFolderStructure.find((folder) => folder.dashboardModule === module)?.code ?? "";
+
   return {
-    projectControl: folders.find((folder) => folder.code === "01"),
-    plans: folders.find((folder) => folder.code === "02"),
-    scopeContract: folders.find((folder) => folder.code === "03"),
-    dailyReports: folders.find((folder) => folder.code === "04"),
-    sitePhotos: folders.find((folder) => folder.code === "05"),
-    billingCollection: folders.find((folder) => folder.code === "06"),
-    procurement: folders.find((folder) => folder.code === "07"),
-    permits: folders.find((folder) => folder.code === "08"),
-    variationOrders: folders.find((folder) => folder.code === "09"),
-    turnover: folders.find((folder) => folder.code === "10"),
-    archive: folders.find((folder) => folder.code === "99"),
+    dashboardLinks: byCode.get(standardCode("dashboardIndex")),
+    projectControl: byCode.get(standardCode("projectControl")),
+    plans: byCode.get(standardCode("plansViewer")),
+    scopeContract: byCode.get(standardCode("scopeViewer")),
+    dailyReports: byCode.get(standardCode("reports")),
+    sitePhotos: byCode.get(standardCode("photos")),
+    billingCollection: byCode.get(standardCode("billings")),
+    procurement: byCode.get(standardCode("procurement")),
+    permits: byCode.get(standardCode("permits")),
+    variationOrders: byCode.get(standardCode("variationOrders")),
+    turnover: byCode.get(standardCode("turnover")),
+    archive: byCode.get(standardCode("archive")),
   };
 }
 
