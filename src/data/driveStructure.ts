@@ -38,6 +38,9 @@ export type DashboardModule =
   | "turnover"
   | "archive";
 
+export const sabprimeRootFolderUrl = "https://drive.google.com/drive/folders/12JvH1m610cgzXqGyBdZsxVLxZSZoGGzQ";
+export const sabprimeRootFolderName = "SABPRIME BUILDERS";
+
 export const mainDriveStructure: DriveFolderDefinition[] = [
   { code: "00", name: "Dashboard & Index", pathName: "00-DASHBOARD & INDEX", dashboardModule: "dashboardIndex" },
   { code: "01", name: "Admin & Finance", pathName: "01-ADMIN & FINANCE", dashboardModule: "adminFinance" },

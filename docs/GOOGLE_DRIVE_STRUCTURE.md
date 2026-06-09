@@ -2,21 +2,25 @@
 
 This is the clean Drive standard for the SAB Prime dashboard. Google Drive is the source for files, Google Sheets is the source for structured records, and the dashboard is the mobile-friendly viewer.
 
+Current root folder:
+
+`https://drive.google.com/drive/folders/12JvH1m610cgzXqGyBdZsxVLxZSZoGGzQ`
+
 ## Main Folder Standard
 
 Root folder:
 
 ```text
 SABPRIME BUILDERS
-├── 00-DASHBOARD & INDEX
-├── 01-ADMIN & FINANCE
-├── 02-PROJECTS
-├── 03-TEMPLATES
-├── 04-REFERENCES
-├── 05-SAFETY & SECURITY
-├── 06-SERVICES & MARKETING
-├── 07-DEVELOPMENT
-└── 99-UNSORTED TEMP
+|- 00-DASHBOARD & INDEX
+|- 01-ADMIN & FINANCE
+|- 02-PROJECTS
+|- 03-TEMPLATES
+|- 04-REFERENCES
+|- 05-SAFETY & SECURITY
+|- 06-SERVICES & MARKETING
+|- 07-DEVELOPMENT
+`- 99-UNSORTED TEMP
 ```
 
 `99-UNSORTED TEMP` is only for temporary intake. Files should be moved to the correct numbered folder after review.
@@ -137,7 +141,7 @@ Plans Viewer rules:
 
 Use this mapping when cleaning old messy folders:
 
-| Old folder or file type | New location |
+| Old file or folder type | New location |
 | --- | --- |
 | Contracts, signed agreements, scope PDFs | `03-SCOPE & CONTRACT` |
 | Architectural, structural, electrical, plumbing, mechanical plans | `02-PLANS` then the matching numbered plan subfolder |
