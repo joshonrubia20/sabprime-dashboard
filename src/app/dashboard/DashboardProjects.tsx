@@ -6,9 +6,10 @@ import type { Project } from "@/lib/project-structure";
 
 type DashboardProjectsProps = {
   projects: Project[];
+  initialSortMode: SortMode;
 };
 
-type SortMode = "date-asc" | "date-desc" | "completion-asc" | "completion-desc";
+export type SortMode = "date-asc" | "date-desc" | "completion-asc" | "completion-desc";
 
 const sortOptions: { label: string; value: SortMode }[] = [
   { label: "Date started ascending", value: "date-asc" },
@@ -29,8 +30,8 @@ function getDateValue(date: string) {
   return new Date(`${date}T00:00:00`).getTime();
 }
 
-export function DashboardProjects({ projects }: DashboardProjectsProps) {
-  const [sortMode, setSortMode] = useState<SortMode>("date-asc");
+export function DashboardProjects({ projects, initialSortMode }: DashboardProjectsProps) {
+  const [sortMode, setSortMode] = useState<SortMode>(initialSortMode);
 
   const sortedProjects = useMemo(() => {
     return [...projects].sort((a, b) => {
@@ -43,7 +44,9 @@ export function DashboardProjects({ projects }: DashboardProjectsProps) {
   }, [projects, sortMode]);
 
   function handleSortChange(value: string) {
-    setSortMode(value as SortMode);
+    const nextSortMode = value as SortMode;
+    setSortMode(nextSortMode);
+    window.location.assign(`/dashboard?sort=${nextSortMode}`);
   }
 
   return (
@@ -54,7 +57,6 @@ export function DashboardProjects({ projects }: DashboardProjectsProps) {
           <select
             value={sortMode}
             onChange={(event) => handleSortChange(event.currentTarget.value)}
-            onInput={(event) => handleSortChange(event.currentTarget.value)}
           >
             {sortOptions.map((option) => (
               <option key={option.value} value={option.value}>
