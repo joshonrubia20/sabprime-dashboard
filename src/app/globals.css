@@ -254,6 +254,24 @@ a {
   font-style: normal;
 }
 
+.plans-folder-note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fbfcf8;
+  color: var(--muted);
+  padding: 10px 12px;
+}
+
+.plans-folder-note a {
+  color: var(--ink);
+  font-weight: 850;
+}
+
 .plan-tab-row {
   display: flex;
   flex-wrap: wrap;

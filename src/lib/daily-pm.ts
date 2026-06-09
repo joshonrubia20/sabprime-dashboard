@@ -17,7 +17,7 @@ export type PlanFile = {
   title: string;
   revisionNumber: string;
   revisionDate: string;
-  previewType: "PDF" | "Drawing" | "Render";
+  previewType: "PDF";
   url: string;
 };
 
@@ -81,6 +81,7 @@ export type ConstructionFlowStep = {
 
 const driveHome = "https://drive.google.com/";
 const dimaanoFolder = "https://drive.google.com/drive/folders/1cixh02KuVl9s314RG4_SID-DwfWUhsN4";
+const magnoliaPlansFolder = "https://drive.google.com/drive/folders/1w6jvuTklMiCbUag21PK66ZXVAuR2nCiz";
 const magnoliaScopeDoc = "https://docs.google.com/document/d/1IRactfUow3WxKcxjlXVYqNDr8ShH7SKErwI--of2O0Q";
 
 export const projectPlanFiles: PlanFile[] = [
@@ -99,7 +100,7 @@ export const projectPlanFiles: PlanFile[] = [
     title: "Structural Combined 2 Storey House",
     revisionNumber: "Rev 02",
     revisionDate: "2026-02-26",
-    previewType: "Drawing",
+    previewType: "PDF",
     url: dimaanoFolder,
   },
   {
@@ -114,20 +115,83 @@ export const projectPlanFiles: PlanFile[] = [
   {
     projectId: "magnolia-residences",
     category: "Architectural",
-    title: "Magnolia 8BC Scope Reference",
+    title: "Magnolia Architectural PDF",
     revisionNumber: "Rev 01",
     revisionDate: "2026-06-09",
     previewType: "PDF",
-    url: magnoliaScopeDoc,
+    url: magnoliaPlansFolder,
+  },
+  {
+    projectId: "magnolia-residences",
+    category: "Structural",
+    title: "Magnolia Structural Plan PDF",
+    revisionNumber: "Pending",
+    revisionDate: "Upload to Drive",
+    previewType: "PDF",
+    url: magnoliaPlansFolder,
+  },
+  {
+    projectId: "magnolia-residences",
+    category: "Plumbing",
+    title: "Magnolia Plumbing PDF",
+    revisionNumber: "Pending",
+    revisionDate: "Upload to Drive",
+    previewType: "PDF",
+    url: magnoliaPlansFolder,
+  },
+  {
+    projectId: "magnolia-residences",
+    category: "Electrical",
+    title: "Magnolia Electrical PDF",
+    revisionNumber: "Pending",
+    revisionDate: "Upload to Drive",
+    previewType: "PDF",
+    url: magnoliaPlansFolder,
+  },
+  {
+    projectId: "magnolia-residences",
+    category: "Mechanical",
+    title: "Magnolia Mechanical PDF",
+    revisionNumber: "Pending",
+    revisionDate: "Upload to Drive",
+    previewType: "PDF",
+    url: magnoliaPlansFolder,
+  },
+  {
+    projectId: "magnolia-residences",
+    category: "CCTV",
+    title: "Magnolia CCTV PDF",
+    revisionNumber: "Pending",
+    revisionDate: "Upload to Drive",
+    previewType: "PDF",
+    url: magnoliaPlansFolder,
+  },
+  {
+    projectId: "magnolia-residences",
+    category: "Solar",
+    title: "Magnolia Solar Setup PDF",
+    revisionNumber: "Pending",
+    revisionDate: "Upload to Drive",
+    previewType: "PDF",
+    url: magnoliaPlansFolder,
   },
   {
     projectId: "magnolia-residences",
     category: "Variation Orders",
-    title: "Variation order register",
+    title: "Magnolia Variation Order PDF",
     revisionNumber: "Pending",
-    revisionDate: "To update",
+    revisionDate: "Upload to Drive",
     previewType: "PDF",
-    url: driveHome,
+    url: magnoliaPlansFolder,
+  },
+  {
+    projectId: "magnolia-residences",
+    category: "As-Built",
+    title: "Magnolia As-Built PDF",
+    revisionNumber: "Pending",
+    revisionDate: "Upload to Drive",
+    previewType: "PDF",
+    url: magnoliaPlansFolder,
   },
 ];
 
@@ -170,7 +234,7 @@ export const requiredProjectFiles: RequiredProjectFile[] = [
   { projectId: "dimaano-residences", label: "Photos", folder: "Photos", url: dimaanoFolder },
   { projectId: "magnolia-residences", label: "Contract", folder: "Contracts", url: driveHome },
   { projectId: "magnolia-residences", label: "Scope of Works", folder: "Scope", url: magnoliaScopeDoc },
-  { projectId: "magnolia-residences", label: "Architectural Plans", folder: "Plans", url: driveHome },
+  { projectId: "magnolia-residences", label: "Plans PDF Folder", folder: "Plans", url: magnoliaPlansFolder },
   { projectId: "magnolia-residences", label: "Reports", folder: "Reports", url: driveHome },
   { projectId: "magnolia-residences", label: "Billings", folder: "Billings", url: driveHome },
   { projectId: "magnolia-residences", label: "Photos", folder: "Photos", url: driveHome },
