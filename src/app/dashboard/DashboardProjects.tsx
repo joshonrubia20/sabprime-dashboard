@@ -9,11 +9,11 @@ type DashboardProjectsProps = {
   initialSortMode: SortMode;
 };
 
-export type SortMode = "date-asc" | "date-desc" | "completion-asc" | "completion-desc";
+export type SortMode = "started-oldest" | "started-newest" | "completion-asc" | "completion-desc";
 
 const sortOptions: { label: string; value: SortMode }[] = [
-  { label: "Date started ascending", value: "date-asc" },
-  { label: "Date started descending", value: "date-desc" },
+  { label: "Newest started", value: "started-newest" },
+  { label: "Oldest started", value: "started-oldest" },
   { label: "Completion ascending", value: "completion-asc" },
   { label: "Completion descending", value: "completion-desc" },
 ];
@@ -26,26 +26,22 @@ function formatDate(date: string) {
   }).format(new Date(`${date}T00:00:00`));
 }
 
-function getDateValue(date: string) {
-  return new Date(`${date}T00:00:00`).getTime();
-}
-
 export function DashboardProjects({ projects, initialSortMode }: DashboardProjectsProps) {
-  const [sortMode, setSortMode] = useState<SortMode>(initialSortMode);
+  const [sortBy, setSortBy] = useState<SortMode>(initialSortMode);
 
   const sortedProjects = useMemo(() => {
     return [...projects].sort((a, b) => {
-      const byName = a.name.localeCompare(b.name);
-      if (sortMode === "date-asc") return getDateValue(a.startDate) - getDateValue(b.startDate) || byName;
-      if (sortMode === "date-desc") return getDateValue(b.startDate) - getDateValue(a.startDate) || byName;
-      if (sortMode === "completion-asc") return a.completion - b.completion || byName;
-      return b.completion - a.completion || byName;
+      if (sortBy === "completion-asc") return a.completion - b.completion;
+      if (sortBy === "completion-desc") return b.completion - a.completion;
+      if (sortBy === "started-newest") return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+      if (sortBy === "started-oldest") return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+      return 0;
     });
-  }, [projects, sortMode]);
+  }, [projects, sortBy]);
 
   function handleSortChange(value: string) {
     const nextSortMode = value as SortMode;
-    setSortMode(nextSortMode);
+    setSortBy(nextSortMode);
     window.history.replaceState(null, "", `/dashboard?sort=${nextSortMode}`);
   }
 
@@ -55,7 +51,7 @@ export function DashboardProjects({ projects, initialSortMode }: DashboardProjec
         <label className="filter-control">
           <span>Sort projects</span>
           <select
-            value={sortMode}
+            value={sortBy}
             onChange={(event) => handleSortChange(event.currentTarget.value)}
           >
             {sortOptions.map((option) => (

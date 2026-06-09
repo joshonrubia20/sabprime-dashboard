@@ -7,10 +7,10 @@ type DashboardPageProps = {
   searchParams?: Promise<{ sort?: string }>;
 };
 
-const validSortModes: SortMode[] = ["date-asc", "date-desc", "completion-asc", "completion-desc"];
+const validSortModes: SortMode[] = ["started-newest", "started-oldest", "completion-asc", "completion-desc"];
 
 function getSortMode(sort?: string): SortMode {
-  return validSortModes.includes(sort as SortMode) ? (sort as SortMode) : "date-asc";
+  return validSortModes.includes(sort as SortMode) ? (sort as SortMode) : "started-newest";
 }
 
 function getHealthStatus(completion: number) {
