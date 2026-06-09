@@ -3,40 +3,14 @@ import {
   getAssignmentPackage,
   getConstructionFlow,
   getProjectDailyUpdates,
-  getProjectFolders,
-  getProjectPlans,
   getScopeSummary,
-  type PlanCategory,
 } from "@/lib/daily-pm";
+import { getProjectDriveSource, type DriveFolder } from "@/lib/drive-source";
 import { dailySections, getProject } from "@/lib/project-structure";
 import { ProjectSitePanel } from "./ProjectSitePanel";
 
 type ProjectPageProps = {
   params: Promise<{ projectId: string }>;
-};
-
-const planCategories: PlanCategory[] = [
-  "Architectural",
-  "Structural",
-  "Plumbing",
-  "Electrical",
-  "Mechanical",
-  "CCTV",
-  "Solar",
-  "Variation Orders",
-  "As-Built",
-];
-
-const shortPlanLabels: Record<PlanCategory, string> = {
-  Architectural: "ARCHITECTURAL",
-  Structural: "STRUCTURAL PLAN",
-  Plumbing: "PLUMBING",
-  Electrical: "ELECTRICAL",
-  Mechanical: "MECHANICAL",
-  CCTV: "CCTV",
-  Solar: "SOLAR SETUP PLAN",
-  "Variation Orders": "VARIATION ORDER PLANS",
-  "As-Built": "AS-BUILT",
 };
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
@@ -55,16 +29,18 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     );
   }
 
-  const plans = getProjectPlans(project.id);
-  const activePlan = plans[0];
+  const driveSource = await getProjectDriveSource(project);
+  const activePlanCategory = driveSource.planCategories[0];
+  const activePlan = activePlanCategory?.files[0];
   const scopeSummary = getScopeSummary(project.id);
   const updates = getProjectDailyUpdates(project.id);
   const todayUpdate = updates[0];
-  const folders = getProjectFolders(project.id);
   const flowSteps = getConstructionFlow(project.id);
   const assignmentPackage = getAssignmentPackage(project.id, updates[0]?.assignedTo ?? "Assigned teammate");
-  const plansFolder = folders.find((folder) => folder.folder === "Plans");
-  const plansFolderUrl = plansFolder?.url ?? "https://drive.google.com/";
+  const mappedProjectFolders = Object.values(driveSource.mappedFolders).filter(
+    (folder): folder is DriveFolder => Boolean(folder),
+  );
+  const projectFolders = driveSource.mainFolders.length > 0 ? driveSource.mainFolders : mappedProjectFolders;
 
   return (
     <main className="os-page">
@@ -116,33 +92,43 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <section id="plans" className="os-card plans-sketch" aria-label="Plans viewer">
         <div className="copy-icon" aria-hidden="true">[]</div>
         <p>PLANS</p>
-        <a className="plan-preview-box" href={activePlan?.url ?? plansFolderUrl} target="_blank" rel="noreferrer">
-          <span>PDF PREVIEW / SELECTED PLAN FROM GOOGLE DRIVE</span>
-          <strong>{activePlan?.title ?? "FIRST ROW PLAN PREVIEW"}</strong>
-          <em>{activePlan?.revisionNumber ?? "Revision pending"} | {activePlan?.revisionDate ?? "Date pending"}</em>
-        </a>
+        {activePlan ? (
+          <a className="plan-preview-box" href={activePlan.webViewLink} target="_blank" rel="noreferrer">
+            <span>PDF PREVIEW / SELECTED PLAN FROM GOOGLE DRIVE</span>
+            <strong>{activePlan.name}</strong>
+            <em>
+              {activePlanCategory.folder.displayName} | Modified {new Date(activePlan.modifiedTime).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </em>
+          </a>
+        ) : (
+          <div className="plan-preview-box plan-empty-state">
+            <span>No plan files uploaded yet.</span>
+            <strong>Upload PDFs inside 02_PLANS numbered subfolders.</strong>
+            <em>Example: 001_ARCHITECTURAL, 002_STRUCTURAL, 003_PLUMBING_SANITARY</em>
+          </div>
+        )}
         <div className="plans-folder-note">
-          <span>Upload PDFs in a Google Drive folder. Each button opens the matching PDF or the Drive folder.</span>
-          {plansFolder ? (
-            <a href={plansFolder.url} target="_blank" rel="noreferrer">
+          <span>Dashboard source: the project's main Google Drive folder. Plans come from 02_PLANS and its numbered subfolders.</span>
+          {driveSource.mappedFolders.plans ? (
+            <a href={driveSource.mappedFolders.plans.url} target="_blank" rel="noreferrer">
               Open Google Drive Folder
             </a>
           ) : null}
         </div>
         <div className="plan-tab-row">
-          {planCategories.map((category) => {
-            const plan = plans.find((item) => item.category === category);
-            const label = shortPlanLabels[category];
-            return plan ? (
-              <a href={plan.url} target="_blank" rel="noreferrer" key={category}>
-                {label} PDF
+          {driveSource.planCategories.length > 0 ? (
+            driveSource.planCategories.map((category) => (
+              <a href={category.files[0].webViewLink} target="_blank" rel="noreferrer" key={category.folder.id}>
+                {category.folder.displayName}
               </a>
-            ) : (
-              <a href={plansFolderUrl} target="_blank" rel="noreferrer" key={category}>
-                {label} PDF
-              </a>
-            );
-          })}
+            ))
+          ) : (
+            <span>No plan categories with files yet.</span>
+          )}
         </div>
       </section>
 
@@ -174,12 +160,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
       <section id="folders" className="os-card folder-structure" aria-label="Project folder structure">
         <div className="copy-icon" aria-hidden="true">[]</div>
-        <p>PROJECT</p>
-        {folders.map((folder) => (
-          <a href={folder.url} target="_blank" rel="noreferrer" key={folder.folder}>
-            <span aria-hidden="true">[+]</span> {folder.folder}
+        <p>GOOGLE DRIVE SOURCE</p>
+        {projectFolders.length > 0 ? projectFolders.map((folder) => (
+          <a href={folder.url} target="_blank" rel="noreferrer" key={folder.id}>
+            <span aria-hidden="true">[+]</span> {folder.displayName}
           </a>
-        ))}
+        )) : (
+          <span className="muted">Add this project's main Google Drive folder URL so the dashboard can scan numbered folders.</span>
+        )}
       </section>
 
       <section className="os-card construction-flow" aria-label="Construction flow">
