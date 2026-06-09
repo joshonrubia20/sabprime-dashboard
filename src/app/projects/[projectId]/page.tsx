@@ -64,6 +64,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const flowSteps = getConstructionFlow(project.id);
   const assignmentPackage = getAssignmentPackage(project.id, updates[0]?.assignedTo ?? "Assigned teammate");
   const plansFolder = folders.find((folder) => folder.folder === "Plans");
+  const plansFolderUrl = plansFolder?.url ?? "https://drive.google.com/";
 
   return (
     <main className="os-page">
@@ -115,16 +116,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <section id="plans" className="os-card plans-sketch" aria-label="Plans viewer">
         <div className="copy-icon" aria-hidden="true">[]</div>
         <p>PLANS</p>
-        <a className="plan-preview-box" href={activePlan?.url ?? plansFolder?.url ?? project.driveFolderUrl} target="_blank" rel="noreferrer">
+        <a className="plan-preview-box" href={activePlan?.url ?? plansFolderUrl} target="_blank" rel="noreferrer">
           <span>PDF PREVIEW / SELECTED PLAN FROM GOOGLE DRIVE</span>
           <strong>{activePlan?.title ?? "FIRST ROW PLAN PREVIEW"}</strong>
           <em>{activePlan?.revisionNumber ?? "Revision pending"} | {activePlan?.revisionDate ?? "Date pending"}</em>
         </a>
         <div className="plans-folder-note">
-          <span>Upload PDFs in Google Drive Plans folder. Each button opens the matching PDF or the Plans folder.</span>
+          <span>Upload PDFs in a Google Drive folder. Each button opens the matching PDF or the Drive folder.</span>
           {plansFolder ? (
             <a href={plansFolder.url} target="_blank" rel="noreferrer">
-              Open Plans Folder
+              Open Google Drive Folder
             </a>
           ) : null}
         </div>
@@ -137,7 +138,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 {label} PDF
               </a>
             ) : (
-              <a href={plansFolder?.url ?? project.driveFolderUrl} target="_blank" rel="noreferrer" key={category}>
+              <a href={plansFolderUrl} target="_blank" rel="noreferrer" key={category}>
                 {label} PDF
               </a>
             );

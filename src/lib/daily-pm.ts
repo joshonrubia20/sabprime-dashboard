@@ -234,7 +234,7 @@ export const requiredProjectFiles: RequiredProjectFile[] = [
   { projectId: "dimaano-residences", label: "Photos", folder: "Photos", url: dimaanoFolder },
   { projectId: "magnolia-residences", label: "Contract", folder: "Contracts", url: driveHome },
   { projectId: "magnolia-residences", label: "Scope of Works", folder: "Scope", url: magnoliaScopeDoc },
-  { projectId: "magnolia-residences", label: "Plans PDF Folder", folder: "Plans", url: magnoliaPlansFolder },
+  { projectId: "magnolia-residences", label: "Google Drive PDF Folder", folder: "Plans", url: magnoliaPlansFolder },
   { projectId: "magnolia-residences", label: "Reports", folder: "Reports", url: driveHome },
   { projectId: "magnolia-residences", label: "Billings", folder: "Billings", url: driveHome },
   { projectId: "magnolia-residences", label: "Photos", folder: "Photos", url: driveHome },
