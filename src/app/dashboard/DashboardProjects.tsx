@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { useMemo, useState } from "react";
 import type { Project } from "@/lib/project-structure";
 
 type DashboardProjectsProps = {
@@ -27,32 +24,15 @@ function formatDate(date: string) {
 }
 
 export function DashboardProjects({ projects, initialSortMode }: DashboardProjectsProps) {
-  const [sortBy, setSortBy] = useState<SortMode>(initialSortMode);
-
-  const sortedProjects = useMemo(() => {
-    return [...projects].sort((a, b) => {
-      if (sortBy === "completion-asc") return a.completion - b.completion;
-      if (sortBy === "completion-desc") return b.completion - a.completion;
-      if (sortBy === "started-newest") return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
-      if (sortBy === "started-oldest") return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
-      return 0;
-    });
-  }, [projects, sortBy]);
-
-  function handleSortChange(value: string) {
-    const nextSortMode = value as SortMode;
-    setSortBy(nextSortMode);
-    window.history.replaceState(null, "", `/dashboard?sort=${nextSortMode}`);
-  }
-
   return (
     <>
-      <div className="filter-bar" aria-label="Project filters">
+      <form action="/dashboard" className="filter-bar" aria-label="Project filters">
         <label className="filter-control">
           <span>Sort projects</span>
           <select
-            value={sortBy}
-            onChange={(event) => handleSortChange(event.currentTarget.value)}
+            defaultValue={initialSortMode}
+            id="project-sort-select"
+            name="sort"
           >
             {sortOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -61,10 +41,16 @@ export function DashboardProjects({ projects, initialSortMode }: DashboardProjec
             ))}
           </select>
         </label>
-      </div>
+      </form>
+      <script
+        dangerouslySetInnerHTML={{
+          __html:
+            "document.getElementById('project-sort-select')?.addEventListener('change',function(){this.form?.requestSubmit();});",
+        }}
+      />
 
       <section className="project-grid" aria-label="Projects">
-        {sortedProjects.map((project) => (
+        {projects.map((project) => (
           <Link className="project-card" href={`/projects/${project.id}`} key={project.id}>
             <div>
               <p className="eyebrow">{project.phase}</p>
